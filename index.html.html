@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Blueprint — Cambodia SME Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #C9973A;
+    --gold-light: #E8C170;
+    --deep: #0D1117;
+    --surface: #161C24;
+    --surface2: #1E2730;
+    --border: rgba(201,151,58,0.2);
+    --text: #E8E4DC;
+    --muted: #8A8278;
+    --accent-blue: #4A90D9;
+    --accent-green: #3DAB6A;
+    --accent-red: #D9534A;
+    --accent-purple: #9B6DD9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* BACKGROUND TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(201,151,58,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 90% 100%, rgba(74,144,217,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 56px 0 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: 'ក្រុមហ៊ុន';
+    position: absolute;
+    right: -20px; top: 20px;
+    font-size: 120px;
+    color: rgba(201,151,58,0.04);
+    font-weight: 900;
+    pointer-events: none;
+    letter-spacing: -4px;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(201,151,58,0.12);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  h1 span { color: var(--gold); }
+  .subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 560px;
+    font-weight: 300;
+  }
+  .meta-row {
+    display: flex; gap: 32px; flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .meta-item label { display: block; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .meta-item span { font-size: 13px; font-weight: 500; color: var(--gold-light); font-family: 'DM Mono', monospace; }
+
+  /* NAV TOC */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin: 48px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px 24px;
+  }
+  .toc-title { grid-column: 1/-1; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .toc a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--gold); }
+  .toc a::before { content: '→'; color: var(--gold); font-size: 11px; }
+
+  /* SECTIONS */
+  section { padding: 56px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .section-label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px; font-weight: 700;
+    color: #fff; margin-bottom: 24px;
+  }
+  h3 {
+    font-size: 14px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--gold-light); margin: 28px 0 12px;
+  }
+  p { color: rgba(232,228,220,0.8); margin-bottom: 14px; }
+
+  /* STACK CARD */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px; margin-top: 24px;
+  }
+  .stack-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 22px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .stack-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .stack-card .role { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .stack-card .tech { font-size: 17px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .stack-card .reason { font-size: 12px; color: var(--muted); }
+  .tag { display: inline-block; background: rgba(74,144,217,0.12); border: 1px solid rgba(74,144,217,0.25); color: var(--accent-blue); font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; margin-top: 8px; }
+
+  /* ROLES TABLE */
+  .roles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; margin-top: 24px; }
+  .role-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 22px; }
+  .role-card .icon { font-size: 28px; margin-bottom: 12px; }
+  .role-card .name { font-weight: 600; font-size: 15px; color: #fff; margin-bottom: 6px; }
+  .role-card .desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* FEATURES */
+  .feature-block { margin-bottom: 32px; }
+  .feature-header {
+    display: flex; align-items: flex-start; gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 20px 22px;
+    margin-bottom: 0;
+  }
+  .feature-header .num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gold); margin-top: 2px; min-width: 28px; }
+  .feature-header .f-title { font-weight: 600; font-size: 15px; color: #fff; margin-bottom: 4px; }
+  .feature-header .f-desc { font-size: 13px; color: var(--muted); }
+  .feature-sub {
+    background: rgba(22,28,36,0.6);
+    border: 1px solid rgba(201,151,58,0.1);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 16px 22px 16px 66px;
+  }
+  .feature-sub ul { list-style: none; }
+  .feature-sub ul li {
+    font-size: 12.5px;
+    color: var(--muted);
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .feature-sub ul li::before { content: '·'; color: var(--gold); margin-top: 1px; }
+  .feature-sub ul li:last-child { border-bottom: none; }
+
+  /* UNIQUE FEATURES - STAR SECTION */
+  .star-section {
+    background: linear-gradient(135deg, rgba(201,151,58,0.08) 0%, rgba(74,144,217,0.05) 100%);
+    border: 1px solid var(--gold);
+    border-radius: 6px;
+    padding: 36px 36px;
+    margin-top: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .star-section::before {
+    content: '★';
+    position: absolute;
+    right: 28px; top: 20px;
+    font-size: 80px;
+    color: rgba(201,151,58,0.08);
+    pointer-events: none;
+  }
+  .unique-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+  .unique-card {
+    background: rgba(13,17,23,0.7);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+  }
+  .unique-card .u-tag {
+    display: inline-block;
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    font-weight: 700; padding: 3px 8px; border-radius: 2px; margin-bottom: 10px;
+  }
+  .u-tag.new { background: rgba(61,171,106,0.15); color: var(--accent-green); border: 1px solid rgba(61,171,106,0.3); }
+  .u-tag.moat { background: rgba(155,109,217,0.15); color: var(--accent-purple); border: 1px solid rgba(155,109,217,0.3); }
+  .unique-card .u-title { font-weight: 600; font-size: 14px; color: #fff; margin-bottom: 6px; }
+  .unique-card .u-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+  /* ARCHITECTURE */
+  .arch-diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 2;
+    overflow-x: auto;
+    margin-top: 24px;
+  }
+  .arch-diagram .layer-label { color: var(--gold); font-weight: 500; }
+  .arch-diagram .box { color: var(--accent-blue); }
+  .arch-diagram .arrow { color: var(--muted); }
+
+  /* PHASES */
+  .phases { margin-top: 24px; }
+  .phase {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .phase:last-child { border-bottom: none; }
+  .phase-num {
+    text-align: center;
+    padding-top: 4px;
+  }
+  .phase-num .n {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: rgba(201,151,58,0.2);
+    line-height: 1;
+  }
+  .phase-num .timeline {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+  .phase-content h4 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .phase-content p { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .phase-content ul { list-style: none; }
+  .phase-content ul li { font-size: 12.5px; color: var(--muted); padding: 3px 0; display: flex; gap: 8px; }
+  .phase-content ul li::before { content: '✓'; color: var(--accent-green); }
+
+  /* DB SCHEMA */
+  .schema-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-top: 24px; }
+  .schema-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px;
+  }
+  .schema-card .table-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; color: var(--gold);
+    margin-bottom: 10px; font-weight: 500;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .schema-card .field {
+    display: flex; justify-content: space-between;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 3px 0;
+    color: var(--muted);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .schema-card .field .fname { color: var(--text); }
+  .schema-card .field .ftype { color: var(--accent-blue); }
+  .pk { color: var(--gold) !important; }
+
+  /* CRITICAL NOTES */
+  .note {
+    background: rgba(217,83,74,0.08);
+    border: 1px solid rgba(217,83,74,0.25);
+    border-left: 3px solid var(--accent-red);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: rgba(232,228,220,0.8);
+  }
+  .note strong { color: var(--accent-red); }
+
+  .tip {
+    background: rgba(61,171,106,0.08);
+    border: 1px solid rgba(61,171,106,0.2);
+    border-left: 3px solid var(--accent-green);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: rgba(232,228,220,0.8);
+  }
+  .tip strong { color: var(--accent-green); }
+
+  /* FOOTER */
+  footer {
+    padding: 48px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  footer strong { color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 0 20px; }
+    .unique-grid { grid-template-columns: 1fr; }
+    .phase { grid-template-columns: 1fr; }
+    .phase-num { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="badge">Technical Consultant Blueprint · 2025</div>
+    <h1>Cambodia <span>SME</span><br/>Marketplace Platform</h1>
+    <p class="subtitle">A full technical direction document for your IT developer — covering architecture, user roles, feature set, database design, and competitive differentiation strategy.</p>
+    <div class="meta-row">
+      <div class="meta-item"><label>Framework</label><span>React / React Native</span></div>
+      <div class="meta-item"><label>Market</label><span>Cambodia (Informal Economy)</span></div>
+      <div class="meta-item"><label>Platforms</label><span>Mobile + Web + Admin</span></div>
+      <div class="meta-item"><label>User Roles</label><span>4 Roles</span></div>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <a href="#stack">01 · Recommended Tech Stack</a>
+    <a href="#roles">02 · User Roles</a>
+    <a href="#features">03 · Core Features</a>
+    <a href="#unique">04 · Unique Differentiators ★</a>
+    <a href="#architecture">05 · System Architecture</a>
+    <a href="#database">06 · Database Schema</a>
+    <a href="#phases">07 · Build Phases</a>
+    <a href="#critical">08 · Critical Warnings</a>
+  </div>
+
+  <!-- SECTION 1: STACK -->
+  <section id="stack">
+    <div class="section-label">01</div>
+    <h2>Recommended Tech Stack</h2>
+    <p>Since your developer knows React/React Native, we build everything in that ecosystem. This is a strong advantage — one language, three platforms, maximum code reuse.</p>
+
+    <div class="stack-grid">
+      <div class="stack-card">
+        <div class="role">Mobile App</div>
+        <div class="tech">React Native + Expo</div>
+        <div class="reason">Expo handles iOS & Android builds without needing Mac/Xcode knowledge. Much faster to deploy.</div>
+        <span class="tag">iOS + Android</span>
+      </div>
+      <div class="stack-card">
+        <div class="role">Web App (Public)</div>
+        <div class="tech">Next.js 14</div>
+        <div class="reason">React-based, SEO-friendly (critical for business discovery), fast page loads, easy deployment on Vercel.</div>
+        <span class="tag">Web Browser</span>
+      </div>
+      <div class="stack-card">
+        <div class="role">Admin Dashboard</div>
+        <div class="tech">React + Vite + TailwindCSS</div>
+        <div class="reason">Pure React SPA for the admin panel. Vite makes development fast. No SSR needed for admin.</div>
+        <span class="tag">Admin Web</span>
+      </div>
+      <div class="stack-card">
+        <div class="role">Backend / API</div>
+        <div class="tech">Node.js + Express or Supabase</div>
+        <div class="reason">Supabase is strongly recommended — it gives you database, authentication, storage, and realtime out of the box. No separate backend needed.</div>
+        <span class="tag">Recommended: Supabase</span>
+      </div>
+      <div class="stack-card">
+        <div class="role">Database</div>
+        <div class="tech">PostgreSQL (via Supabase)</div>
+        <div class="reason">Relational DB handles complex relationships between members, businesses, bookings. PostgreSQL is enterprise-grade and free-tier available.</div>
+        <span class="tag">Relational DB</span>
+      </div>
+      <div class="stack-card">
+        <div class="role">QR Code System</div>
+        <div class="tech">qrcode.js + UUID + JWT</div>
+        <div class="reason">Generate QR codes encoding a signed JWT token. Scanning validates the token cryptographically — no internet required to verify basics.</div>
+        <span class="tag">Auth Layer</span>
+      </div>
+      <div class="stack-card">
+        <div class="role">File & Image Storage</div>
+        <div class="tech">Supabase Storage or Cloudflare R2</div>
+        <div class="reason">For ID card photos, business profile images. R2 has zero egress fees — critical for cost control in Cambodia.</div>
+        <span class="tag">Storage</span>
+      </div>
+      <div class="stack-card">
+        <div class="role">Maps & Location</div>
+        <div class="tech">Google Maps SDK / Mapbox</div>
+        <div class="reason">Mapbox is cheaper at scale. Use for hyperlocal "businesses near you" discovery. React Native Maps wraps both.</div>
+        <span class="tag">Geolocation</span>
+      </div>
+      <div class="stack-card">
+        <div class="role">Push Notifications</div>
+        <div class="tech">Expo Notifications + OneSignal</div>
+        <div class="reason">OneSignal free tier is generous. Essential for booking confirmations, promotions near users, membership alerts.</div>
+        <span class="tag">Engagement</span>
+      </div>
+      <div class="stack-card">
+        <div class="role">Payments (Future)</div>
+        <div class="tech">ABA PayWay / Wing API</div>
+        <div class="reason">Cambodia-native payment gateways. ABA Bank is dominant. Wing is widely used in rural areas. Integrate in Phase 2.</div>
+        <span class="tag">Cambodia-Specific</span>
+      </div>
+    </div>
+
+    <div class="tip" style="margin-top:24px;">
+      <strong>Developer tip:</strong> Tell your friend to start with Supabase. It eliminates the need to build a separate backend from scratch and dramatically speeds up the first version. Auth, DB, Storage and APIs come included.
+    </div>
+  </section>
+
+  <!-- SECTION 2: ROLES -->
+  <section id="roles">
+    <div class="section-label">02</div>
+    <h2>User Roles & Permissions</h2>
+    <p>Four distinct roles, each with their own app experience. Your developer needs to build Role-Based Access Control (RBAC) from day one.</p>
+
+    <div class="roles-grid">
+      <div class="role-card">
+        <div class="icon">🏪</div>
+        <div class="name">Member Business Owner</div>
+        <div class="desc">Registered SME within the chamber. Gets official digital ID card, manages their business listing, views booking requests, accesses member-only deals and tools.</div>
+      </div>
+      <div class="role-card">
+        <div class="icon">🧑‍💼</div>
+        <div class="name">Organisation Admin</div>
+        <div class="desc">Manages the chamber. Approves new member applications, issues/revokes ID cards, views analytics, manages promotions, and moderates content across the platform.</div>
+      </div>
+      <div class="role-card">
+        <div class="icon">🧭</div>
+        <div class="name">General Public / Visitor</div>
+        <div class="desc">No registration required. Can browse and discover businesses by location or category, make bookings, scan QR codes to verify member businesses. Cannot access member perks.</div>
+      </div>
+      <div class="role-card">
+        <div class="icon">🏛️</div>
+        <div class="name">Government / Partner</div>
+        <div class="desc">Read-only access to anonymised aggregated data (number of active SMEs per district, category trends). No access to individual business data. Builds institutional trust.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: CORE FEATURES -->
+  <section id="features">
+    <div class="section-label">03</div>
+    <h2>Core Features — Build List</h2>
+    <p>These are the two core services your company is commissioned to deliver, broken into specific buildable features for your developer.</p>
+
+    <h3>Service 1 — Digital ID Card System</h3>
+
+    <div class="feature-block">
+      <div class="feature-header">
+        <div class="num">F-01</div>
+        <div>
+          <div class="f-title">Member Registration & Onboarding Flow</div>
+          <div class="f-desc">Application process for businesses to join the chamber and receive a verified ID.</div>
+        </div>
+      </div>
+      <div class="feature-sub">
+        <ul>
+          <li>Multi-step application form (business name, type, location, owner photo, ID document upload)</li>
+          <li>Admin review queue — approve or reject with reason note</li>
+          <li>Automated email/SMS notification on status change</li>
+          <li>Member record created in database only upon approval</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-header">
+        <div class="num">F-02</div>
+        <div>
+          <div class="f-title">Digital ID Card Generator</div>
+          <div class="f-desc">Auto-generates a beautiful digital ID card on member approval, viewable in-app and downloadable as PDF/image.</div>
+        </div>
+      </div>
+      <div class="feature-sub">
+        <ul>
+          <li>Card contains: member photo, full name, business name, member ID number, category, issue date, expiry date, and QR code</li>
+          <li>QR code encodes a signed JWT (member ID + expiry timestamp + signature)</li>
+          <li>Card rendered using HTML Canvas or react-pdf in React Native</li>
+          <li>Shareable as image (for WhatsApp/Telegram sharing — very important in Cambodia)</li>
+          <li>Card status: Active (green), Expired (orange), Revoked (red)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-header">
+        <div class="num">F-03</div>
+        <div>
+          <div class="f-title">QR Code Authentication Scanner</div>
+          <div class="f-desc">Anyone (public, member, partner) can scan a member's QR code to instantly verify authenticity.</div>
+        </div>
+      </div>
+      <div class="feature-sub">
+        <ul>
+          <li>In-app QR scanner using Expo Camera / expo-barcode-scanner</li>
+          <li>Scanning shows: member name, business name, member since, status badge, and photo</li>
+          <li>Cryptographic verification — app validates the JWT signature without needing internet for basic check</li>
+          <li>Online mode: real-time database lookup to check if card has been revoked</li>
+          <li>Scan log stored for audit purposes (admin can view who scanned what, when)</li>
+          <li>Web version: unique URL (e.g. verify.app.com/member/ID123) shows same verification page</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-header">
+        <div class="num">F-04</div>
+        <div>
+          <div class="f-title">ID Card Lifecycle Management</div>
+          <div class="f-desc">Admins manage the full lifecycle — renewal, revocation, upgrade.</div>
+        </div>
+      </div>
+      <div class="feature-sub">
+        <ul>
+          <li>Cards expire after configurable period (e.g. 1 year), member gets renewal reminder 30/14/7 days before</li>
+          <li>Admin can revoke immediately (card shows as invalid on scan)</li>
+          <li>Annual renewal flow with fee tracking (for future payment integration)</li>
+          <li>Membership tiers (e.g. Standard / Gold / Platinum) with different card designs</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Service 2 — Booking & Business Discovery</h3>
+
+    <div class="feature-block">
+      <div class="feature-header">
+        <div class="num">F-05</div>
+        <div>
+          <div class="f-title">Business Directory & Marketplace Listings</div>
+          <div class="f-desc">Searchable, filterable directory of all member businesses — open to the public.</div>
+        </div>
+      </div>
+      <div class="feature-sub">
+        <ul>
+          <li>Category system (Food & Beverage, Retail, Services, Crafts, Tourism, etc.)</li>
+          <li>Each listing: business name, category, description, photos, location pin, operating hours, contact info, booking button</li>
+          <li>"Verified Member" gold badge on all chamber-approved listings</li>
+          <li>Search by keyword, filter by category, sort by distance / rating / newest</li>
+          <li>Members manage their own listing from the app</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-header">
+        <div class="num">F-06</div>
+        <div>
+          <div class="f-title">Hyperlocal Discovery (Area-Based)</div>
+          <div class="f-desc">The killer feature for the booking service — shows businesses near the user's current location.</div>
+        </div>
+      </div>
+      <div class="feature-sub">
+        <ul>
+          <li>Map view showing all nearby member businesses with pins and category icons</li>
+          <li>List view sorted by walking distance</li>
+          <li>"I'm visiting [Area Name]" mode — user selects a district/village to browse businesses there without GPS</li>
+          <li>Featured businesses in the area appear at top of results (premium member tier benefit)</li>
+          <li>Offline-cached area listings (important for rural Cambodia with patchy internet)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-header">
+        <div class="num">F-07</div>
+        <div>
+          <div class="f-title">Booking System</div>
+          <div class="f-desc">Public users can book or enquire directly through the app. Businesses receive and manage bookings.</div>
+        </div>
+      </div>
+      <div class="feature-sub">
+        <ul>
+          <li>Two booking modes: Appointment booking (date/time slot) and Enquiry booking (message-based)</li>
+          <li>Business owner sets availability slots in their dashboard</li>
+          <li>Customer receives confirmation notification; business receives alert</li>
+          <li>Booking status: Pending → Confirmed → Completed / Cancelled</li>
+          <li>Simple chat thread per booking for communication</li>
+          <li>Booking history accessible to both parties</li>
+          <li>Optional deposit/payment note field (for future payment integration)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-header">
+        <div class="num">F-08</div>
+        <div>
+          <div class="f-title">Promotions & Deals Engine</div>
+          <div class="f-desc">Members can post limited-time deals; public users can discover and claim them.</div>
+        </div>
+      </div>
+      <div class="feature-sub">
+        <ul>
+          <li>Deals feed — public view of all active promotions near user</li>
+          <li>Member posts: deal title, description, % or flat discount, validity dates, usage limit, claim code</li>
+          <li>Visitors scan business QR → see active deals for that business</li>
+          <li>Push notification: "New deal 200m away from you" (location-based trigger)</li>
+          <li>Admin approves deals before publishing (to maintain quality)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-header">
+        <div class="num">F-09</div>
+        <div>
+          <div class="f-title">Admin Dashboard</div>
+          <div class="f-desc">Separate web panel for organisation admins to manage everything.</div>
+        </div>
+      </div>
+      <div class="feature-sub">
+        <ul>
+          <li>Member management: view, approve, suspend, renew members</li>
+          <li>ID card issuance, revocation, and audit log</li>
+          <li>Analytics overview: total members, active cards, bookings this month, top categories, top areas</li>
+          <li>Deals moderation queue</li>
+          <li>Announcements broadcaster (sends push notification to all members or by category)</li>
+          <li>Partner/government reporting: anonymised export of aggregated statistics</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: UNIQUE FEATURES -->
+  <section id="unique">
+    <div class="section-label">04</div>
+    <h2>Unique Differentiators ★</h2>
+    <p>These are the features that will put you <em>ahead</em> of any competing platform in Cambodia. None of these exist together in a single platform targeting the informal SME sector.</p>
+
+    <div class="star-section">
+      <h3 style="margin-top:0; color: var(--gold-light);">Your Competitive Moat</h3>
+      <p>You are the <strong style="color:#fff;">only platform that combines verified identity infrastructure with hyperlocal commerce</strong> for informal businesses. Every feature below deepens that moat.</p>
+
+      <div class="unique-grid">
+
+        <div class="unique-card">
+          <div class="u-tag new">Unique</div>
+          <div class="u-title">🗺️ Tourist Trail Mode</div>
+          <div class="u-desc">When a visitor arrives in an area, they scan a single area QR (posted at entry points, hotels, tuk-tuks) and get a curated trail of nearby verified SMEs — like a digital market guide. No app download required (web-based). This is a massive value add for tourism-adjacent businesses.</div>
+        </div>
+
+        <div class="unique-card">
+          <div class="u-tag moat">Moat</div>
+          <div class="u-title">📊 Business Health Score</div>
+          <div class="u-desc">Each member gets a private "Business Health Score" based on: bookings completed, profile completeness, deals posted, QR scans received, and review rating. Shown only to the member. Encourages engagement and gives them a KPI they didn't have before. Scores unlock tier upgrades.</div>
+        </div>
+
+        <div class="unique-card">
+          <div class="u-tag new">Unique</div>
+          <div class="u-title">🤝 Member-to-Member Referral Network</div>
+          <div class="u-desc">Members can refer customers to each other within the platform — e.g., a guesthouse refers a guest to a local restaurant. The referral is tracked digitally. If a booking happens via referral, both members see it. Builds community and cross-promotion without any extra marketing cost.</div>
+        </div>
+
+        <div class="unique-card">
+          <div class="u-tag moat">Moat</div>
+          <div class="u-title">🌐 Khmer-First Design</div>
+          <div class="u-desc">Full Khmer language UI from day one — not a translation afterthought. Khmer Unicode, right fonts, culturally appropriate UX patterns. Most competitor apps are English-primary. This alone captures the market segment that competitors cannot reach.</div>
+        </div>
+
+        <div class="unique-card">
+          <div class="u-tag new">Unique</div>
+          <div class="u-title">📶 Offline-First Core</div>
+          <div class="u-desc">The ID card and QR verification work fully offline. Member listings are cached for the last viewed area. Bookings queue when offline and sync when connected. Cambodia's rural internet is unreliable — apps that fail without connectivity fail their users.</div>
+        </div>
+
+        <div class="unique-card">
+          <div class="u-tag moat">Moat</div>
+          <div class="u-title">🏆 Community Events Board</div>
+          <div class="u-desc">Admins and members can post local market events, pop-up stalls, or seasonal gatherings on a shared events calendar. Public users see events near them. This creates a reason for the public to keep checking the app — not just when they need to book, but to discover what's happening locally.</div>
+        </div>
+
+        <div class="unique-card">
+          <div class="u-tag new">Unique</div>
+          <div class="u-title">📱 WhatsApp/Telegram Deep Integration</div>
+          <div class="u-desc">In Cambodia, WhatsApp and Telegram are the primary communication tools. Every booking confirmation, QR scan verification, and new deal notification should be shareable directly to those platforms. Member ID cards should be shareable as a message card. Meet your users where they already are.</div>
+        </div>
+
+        <div class="unique-card">
+          <div class="u-tag moat">Moat</div>
+          <div class="u-title">🔒 Trust Badge for Physical Display</div>
+          <div class="u-desc">Issue members a printable/laminated "Verified Chamber Member" physical sticker with QR code for display at their physical shop. This bridges digital trust into the physical world — when a customer walks past and scans the sticker on the shop door, they see the full verification. No competitor does this.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: ARCHITECTURE -->
+  <section id="architecture">
+    <div class="section-label">05</div>
+    <h2>System Architecture Overview</h2>
+    <p>Tell your developer to think in three layers: Frontend clients, a Backend-as-a-Service layer (Supabase), and third-party integrations.</p>
+
+    <div class="arch-diagram">
+<span class="layer-label">┌─ FRONTEND CLIENTS ──────────────────────────────────────────────────┐</span>
+│                                                                       │
+│  <span class="box">[ React Native App ]</span>       <span class="box">[ Next.js Web App ]</span>     <span class="box">[ React Admin Panel ]</span>  │
+│   Mobile: Members,           Public discovery,        Org Admins,     │
+│   Public scanning,           Business listings,       Government view  │
+│   Bookings, ID Cards         Bookings (public)                        │
+│                                                                       │
+<span class="layer-label">└───────────────────────────────┬───────────────────────────────────────┘</span>
+                               │ REST API / Realtime Subscriptions
+<span class="layer-label">┌───────────────────────────────▼───────────────────────────────────────┐</span>
+│                      SUPABASE (Backend-as-a-Service)                  │
+│                                                                       │
+│  <span class="box">[ Auth ]</span>           <span class="box">[ PostgreSQL DB ]</span>     <span class="box">[ Row Level Security ]</span>      │
+│  JWT, OAuth,         Members, Businesses,    Per-role data access     │
+│  Magic Links         Bookings, Cards, Deals  enforcement              │
+│                                                                       │
+│  <span class="box">[ Storage ]</span>        <span class="box">[ Edge Functions ]</span>   <span class="box">[ Realtime ]</span>               │
+│  ID photos,          QR generation,          Live booking updates,    │
+│  Business images,    JWT signing,            Chat messages            │
+│  ID card exports     Notification triggers                            │
+│                                                                       │
+<span class="layer-label">└───────────────────────────────┬───────────────────────────────────────┘</span>
+                               │
+<span class="layer-label">┌───────────────────────────────▼───────────────────────────────────────┐</span>
+│                   THIRD-PARTY INTEGRATIONS                            │
+│                                                                       │
+│  <span class="box">[ Google Maps ]</span>   <span class="box">[ OneSignal ]</span>   <span class="box">[ Cloudflare R2 ]</span>  <span class="box">[ ABA PayWay* ]</span>  │
+│  Location maps       Push notifications  Cheaper storage    Payments  │
+│  Geofencing          (free tier)         Zero egress cost   (Phase 2) │
+│                                                                       │
+└───────────────────────────────────────────────────────────────────────┘
+    </div>
+  </section>
+
+  <!-- SECTION 6: DATABASE -->
+  <section id="database">
+    <div class="section-label">06</div>
+    <h2>Core Database Schema</h2>
+    <p>The key tables your developer needs to design from day one. Supabase uses PostgreSQL — these map directly.</p>
+
+    <div class="schema-grid">
+      <div class="schema-card">
+        <div class="table-name">users</div>
+        <div class="field"><span class="fname pk">id (UUID)</span><span class="ftype">PK</span></div>
+        <div class="field"><span class="fname">email</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">phone</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">role</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">full_name</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">avatar_url</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+
+      <div class="schema-card">
+        <div class="table-name">members</div>
+        <div class="field"><span class="fname pk">id (UUID)</span><span class="ftype">PK</span></div>
+        <div class="field"><span class="fname">user_id</span><span class="ftype">FK→users</span></div>
+        <div class="field"><span class="fname">member_number</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">status</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">tier</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">issued_at</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">expires_at</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">qr_token</span><span class="ftype">text (JWT)</span></div>
+      </div>
+
+      <div class="schema-card">
+        <div class="table-name">businesses</div>
+        <div class="field"><span class="fname pk">id (UUID)</span><span class="ftype">PK</span></div>
+        <div class="field"><span class="fname">member_id</span><span class="ftype">FK→members</span></div>
+        <div class="field"><span class="fname">name</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">category_id</span><span class="ftype">FK→categories</span></div>
+        <div class="field"><span class="fname">description</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">location</span><span class="ftype">geography</span></div>
+        <div class="field"><span class="fname">district</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">operating_hours</span><span class="ftype">jsonb</span></div>
+        <div class="field"><span class="fname">is_verified</span><span class="ftype">boolean</span></div>
+      </div>
+
+      <div class="schema-card">
+        <div class="table-name">id_cards</div>
+        <div class="field"><span class="fname pk">id (UUID)</span><span class="ftype">PK</span></div>
+        <div class="field"><span class="fname">member_id</span><span class="ftype">FK→members</span></div>
+        <div class="field"><span class="fname">card_number</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">status</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">issued_by</span><span class="ftype">FK→users</span></div>
+        <div class="field"><span class="fname">issued_at</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">expires_at</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">revoked_at</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">card_image_url</span><span class="ftype">text</span></div>
+      </div>
+
+      <div class="schema-card">
+        <div class="table-name">bookings</div>
+        <div class="field"><span class="fname pk">id (UUID)</span><span class="ftype">PK</span></div>
+        <div class="field"><span class="fname">business_id</span><span class="ftype">FK→businesses</span></div>
+        <div class="field"><span class="fname">customer_id</span><span class="ftype">FK→users</span></div>
+        <div class="field"><span class="fname">status</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">booking_date</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">notes</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+
+      <div class="schema-card">
+        <div class="table-name">deals / promotions</div>
+        <div class="field"><span class="fname pk">id (UUID)</span><span class="ftype">PK</span></div>
+        <div class="field"><span class="fname">business_id</span><span class="ftype">FK→businesses</span></div>
+        <div class="field"><span class="fname">title</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">discount_type</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">discount_value</span><span class="ftype">numeric</span></div>
+        <div class="field"><span class="fname">valid_from</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">valid_to</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">is_approved</span><span class="ftype">boolean</span></div>
+      </div>
+
+      <div class="schema-card">
+        <div class="table-name">qr_scan_logs</div>
+        <div class="field"><span class="fname pk">id (UUID)</span><span class="ftype">PK</span></div>
+        <div class="field"><span class="fname">card_id</span><span class="ftype">FK→id_cards</span></div>
+        <div class="field"><span class="fname">scanned_by</span><span class="ftype">FK→users</span></div>
+        <div class="field"><span class="fname">scan_result</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">location</span><span class="ftype">geography</span></div>
+        <div class="field"><span class="fname">scanned_at</span><span class="ftype">timestamp</span></div>
+      </div>
+
+      <div class="schema-card">
+        <div class="table-name">categories</div>
+        <div class="field"><span class="fname pk">id</span><span class="ftype">PK</span></div>
+        <div class="field"><span class="fname">name_en</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">name_km</span><span class="ftype">text (Khmer)</span></div>
+        <div class="field"><span class="fname">icon</span><span class="ftype">text (emoji)</span></div>
+        <div class="field"><span class="fname">parent_id</span><span class="ftype">self FK</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: PHASES -->
+  <section id="phases">
+    <div class="section-label">07</div>
+    <h2>Build Phases — Roadmap</h2>
+    <p>Tell your developer to build in this order. Each phase delivers something usable. Don't build everything at once.</p>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-num">
+          <div class="n">1</div>
+          <div class="timeline">Month 1–2</div>
+        </div>
+        <div class="phase-content">
+          <h4>Foundation — Identity & Auth</h4>
+          <p>The minimum viable product that makes the organisation operational. Focus only on membership and ID cards.</p>
+          <ul>
+            <li>Supabase project setup, database schema, Row Level Security</li>
+            <li>User auth: email + phone OTP login</li>
+            <li>Member application form & admin approval flow</li>
+            <li>Digital ID card generator with QR code</li>
+            <li>QR scanner (in-app + web verification page)</li>
+            <li>Basic admin dashboard (member management only)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num">
+          <div class="n">2</div>
+          <div class="timeline">Month 3–4</div>
+        </div>
+        <div class="phase-content">
+          <h4>Marketplace — Discovery & Listings</h4>
+          <p>Open the platform to the public. Build the business directory and map-based discovery.</p>
+          <ul>
+            <li>Business profile creation and management (members)</li>
+            <li>Public business directory with search and filters</li>
+            <li>Map view with Google Maps / Mapbox integration</li>
+            <li>Category system (English + Khmer)</li>
+            <li>Business photo gallery uploads</li>
+            <li>Next.js public-facing web app launch</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num">
+          <div class="n">3</div>
+          <div class="timeline">Month 5–6</div>
+        </div>
+        <div class="phase-content">
+          <h4>Commerce — Bookings & Promotions</h4>
+          <p>Activate transactions and engagement. This is where the platform generates value for both businesses and users.</p>
+          <ul>
+            <li>Booking system with availability slots</li>
+            <li>Booking notifications (push + SMS)</li>
+            <li>Deals & promotions engine</li>
+            <li>Location-based push notifications for nearby deals</li>
+            <li>Member-to-member referral system</li>
+            <li>Tourist Trail Mode (area QR scans)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num">
+          <div class="n">4</div>
+          <div class="timeline">Month 7+</div>
+        </div>
+        <div class="phase-content">
+          <h4>Growth — Analytics, Payments & Partners</h4>
+          <p>Monetisation, government reporting, and advanced insights.</p>
+          <ul>
+            <li>Business Health Score system</li>
+            <li>Full admin analytics dashboard</li>
+            <li>Government/partner read-only reporting module</li>
+            <li>ABA PayWay integration for membership fees</li>
+            <li>Events board for local markets & pop-ups</li>
+            <li>Physical sticker / print-ready ID card export</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: CRITICAL WARNINGS -->
+  <section id="critical">
+    <div class="section-label">08</div>
+    <h2>Critical Warnings for Your Developer</h2>
+
+    <div class="note">
+      <strong>Security First:</strong> The QR code JWT must be signed with a secret key stored only on the server (Supabase Edge Function). Never expose the signing secret in client-side React Native code. If the secret leaks, anyone can forge verified ID cards.
+    </div>
+
+    <div class="note">
+      <strong>Row Level Security (RLS) is mandatory:</strong> In Supabase, every table must have RLS policies. Without it, any authenticated user can read all members' data. Your developer must set RLS before going live — not after.
+    </div>
+
+    <div class="tip">
+      <strong>Build Khmer language support into the database from day one:</strong> Every user-facing text field (category names, business descriptions, notifications) should have a <code>_km</code> (Khmer) variant column. Adding it later is painful.
+    </div>
+
+    <div class="note">
+      <strong>Don't use localStorage for sensitive auth tokens in the web app:</strong> Use httpOnly cookies or Supabase's built-in session management. This is a common React developer mistake with serious security implications.
+    </div>
+
+    <div class="tip">
+      <strong>GDPR/Privacy consideration:</strong> Even though Cambodia's data protection law is still developing, the QR scan log stores location data. Be transparent with users about what is logged when they scan. This protects you legally if regulations tighten.
+    </div>
+
+    <div class="tip">
+      <strong>Start with Expo (managed workflow):</strong> Your developer should not use React Native CLI bare workflow from the start. Expo managed workflow is simpler, handles push notifications, camera, and OTA updates automatically. Eject to bare only if needed later.
+    </div>
+  </section>
+
+  <footer>
+    <p>Technical Blueprint prepared for <strong>Cambodia SME Marketplace Platform</strong><br/>
+    React / React Native · Supabase · Next.js · Cambodia Market · 4 User Roles</p>
+    <p style="margin-top: 12px; font-size: 11px; color: var(--muted);">This document is a consultant direction guide. All technical decisions should be validated with your developer before implementation.</p>
+  </footer>
+
+</div>
+</body>
+</html>
